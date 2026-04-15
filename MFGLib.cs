@@ -10,13 +10,13 @@ public class MyVector2
         this.y = y;
     }
 
-    public  float Length()
+    public  float Magnitude()
     {
         return MathF.Sqrt(x * x + y * y);
     }
     public MyVector2 Normalize()
     {
-       float length = Length();
+       float length = Magnitude();
         if (length != 0)
         {
             return MFGLib.Divide(this, length);
@@ -38,13 +38,13 @@ public class MyVector3
         this.z = z;
     }
 
-    public float Length()
+    public float Magnitude()
     {
         return MathF.Sqrt(x * x + y * y + z * z);
     }
     public MyVector3 Normalize()
         {
-            float length = Length();
+            float length = Magnitude();
             if (length != 0)
             {
                 return MFGLib.Divide(this, length);
@@ -225,12 +225,12 @@ public class Quat
 
         public static float Distance(MyVector2 a, MyVector2 b)
         {
-            return Subtract(a, b).Length();
+            return Subtract(a, b).Magnitude();
         }
 
         public static float Distance(MyVector3 a, MyVector3 b)
         {
-            return Subtract(a, b).Length();
+            return Subtract(a, b).Magnitude();
         }
 
         // ----------------------------------

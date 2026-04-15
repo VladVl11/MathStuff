@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "s+g7XmnwX8Q=",
+  "dgSpecHash": "FS5NkBBP3Rg=",
   "success": true,
   "projectFilePath": "D:\\Repos\\Projects\\MathLib\\MathStuff\\MathStuff.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\vlady\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.14\\microsoft.netcore.app.ref.9.0.14.nupkg.sha512",
+    "C:\\Users\\vlady\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.14\\microsoft.windowsdesktop.app.ref.9.0.14.nupkg.sha512",
+    "C:\\Users\\vlady\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.14\\microsoft.aspnetcore.app.ref.9.0.14.nupkg.sha512",
+    "C:\\Users\\vlady\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\9.0.14\\microsoft.netcore.app.host.win-x64.9.0.14.nupkg.sha512"
+  ],
   "logs": []
 }
