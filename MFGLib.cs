@@ -1,4 +1,8 @@
-using System.Numerics;
+using UnityEngine;
+using MathF = System.MathF;
+
+namespace MathLib
+{
 public class MyVector2
 {
     public float x;
@@ -37,23 +41,27 @@ public class MyVector3
         this.y = y;
         this.z = z;
     }
-    public MyVector3 right = new(1, 0, 0);
-    public MyVector3 up = new(0, 1, 0);
-    public MyVector3 forward = new(0, 0, 1);
+    public static MyVector3 right = new(1f, 0f, 0f);
+    public static MyVector3 up = new(0f, 1f, 0f);
+    public static MyVector3 forward = new(0f, 0f, 1f);
 
     public float Magnitude()
     {
         return MathF.Sqrt(x * x + y * y + z * z);
     }
     public MyVector3 Normalize()
+    {
+        float length = Magnitude();
+        if (length != 0)
         {
-            float length = Magnitude();
-            if (length != 0)
-            {
-                return MFGLib.Divide(this, length);
-            }
-            return new MyVector3(0, 0, 0);
+            return MFGLib.Divide(this, length);
         }
+        return new MyVector3(0, 0, 0);
+    }
+    public Vector3 ToUnityVector3()
+    {
+        return new Vector3(x, y, z);
+    }
 }
 
 
@@ -134,6 +142,47 @@ public class Quat
         this.y = axis.y * sinHalfAngle;
         this.z = axis.z * sinHalfAngle;
     }
+    
+    // Made with AI
+    public Quat(Matrix4 m)
+    {
+        float trace = m.row0.x + m.row1.y + m.row2.z;
+        if (trace > 0)
+        {
+            float scale = 0.5f / MathF.Sqrt(trace + 1.0f);
+            this.w = 0.25f / scale;
+            this.x = (m.row1.z - m.row2.y) * scale;
+            this.y = (m.row2.x - m.row0.z) * scale;
+            this.z = (m.row0.y - m.row1.x) * scale;
+        }
+        else
+        {
+            if (m.row0.x > m.row1.y && m.row0.x > m.row2.z)
+            {
+                float scale = 2.0f * MathF.Sqrt(1.0f + m.row0.x - m.row1.y - m.row2.z);
+                this.w = (m.row1.z - m.row2.y) / scale;
+                this.x = 0.25f * scale;
+                this.y = (m.row1.x + m.row0.y) / scale;
+                this.z = (m.row2.x + m.row0.z) / scale;
+            }
+            else if (m.row1.y > m.row2.z)
+            {
+                float scale = 2.0f * MathF.Sqrt(1.0f + m.row1.y - m.row0.x - m.row2.z);
+                this.w = (m.row2.x - m.row0.z) / scale;
+                this.x = (m.row1.x + m.row0.y) / scale;
+                this.y = 0.25f * scale;
+                this.z = (m.row2.y + m.row1.z) / scale;
+            }
+            else
+            {
+                float scale = 2.0f * MathF.Sqrt(1.0f + m.row2.z - m.row0.x - m.row1.y);
+                this.w = (m.row0.y - m.row1.x) / scale;
+                this.x = (m.row2.x + m.row0.z) / scale;
+                this.y = (m.row2.y + m.row1.z) / scale;
+                this.z = 0.25f * scale;
+            }
+        }
+    }
 
     public static Quat operator *(Quat a, Quat b)
         {
@@ -162,11 +211,29 @@ public class Quat
             Quat resultQuat = this * vQuat * Inverse();
             return new MyVector3(resultQuat.x, resultQuat.y, resultQuat.z);
         }
+}
 
-        public Quaternion ToUnityQuaternion()
-        {
-            return new Quaternion(x, y, z, w);
-        }
+public static class UnityConvert
+{
+    public static Vector3 ToUnityVector3(MyVector3 v)
+    {
+        return new Vector3(v.x, v.y, v.z);
+    }
+
+    public static MyVector3 FromUnityVector3(Vector3 v)
+    {
+        return new MyVector3(v.x, v.y, v.z);
+    }
+
+    public static Quaternion ToUnityQuaternion(Quat q)
+    {
+        return new Quaternion(q.x, q.y, q.z, q.w);
+    }
+
+    public static Quat FromUnityQuaternion(Quaternion q)
+    {
+        return new Quat(q.x, q.y, q.z, q.w);
+    }
 }
     public static class MFGLib
     {
@@ -423,3 +490,4 @@ public class Quat
             return Add(Add(Scale(point, cos), Scale(axis, DotProd(axis, point) * (1f - cos))), Scale(CrossProduct(axis, point), sin));
         }
     }
+}
