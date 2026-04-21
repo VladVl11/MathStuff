@@ -37,6 +37,9 @@ public class MyVector3
         this.y = y;
         this.z = z;
     }
+    public MyVector3 right = new(1, 0, 0);
+    public MyVector3 up = new(0, 1, 0);
+    public MyVector3 forward = new(0, 0, 1);
 
     public float Magnitude()
     {
@@ -52,6 +55,7 @@ public class MyVector3
             return new MyVector3(0, 0, 0);
         }
 }
+
 
 public class MyVector4
 {
